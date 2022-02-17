@@ -8,4 +8,5 @@ import com.j1000tonm.dscatalog3.entities.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
+	User findByEmail(String email);
 }
