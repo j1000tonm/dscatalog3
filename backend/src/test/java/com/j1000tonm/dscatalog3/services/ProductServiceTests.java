@@ -45,6 +45,8 @@ public class ProductServiceTests {
 	private long existingId;
 	private long nonExistingId;
 	private long dependetId;
+	private long categoryId;
+	private String name;
 	private PageImpl<Product> page;
 	private Product product;
 	private ProductDTO productDTO;
@@ -55,6 +57,8 @@ public class ProductServiceTests {
 		existingId = 1L;
 		nonExistingId = 2L;
 		dependetId = 3L;
+		categoryId = 1L;
+		name = "Gamer";
 		product = Factory.createProduct();
 		productDTO = Factory.createProductDTO();
 		category = Factory.createCategory();
@@ -116,7 +120,7 @@ public class ProductServiceTests {
 		
 		Pageable pageable = PageRequest.of(0, 10);
 		
-		Page<ProductDTO> result = service.findAllPaged(pageable);
+		Page<ProductDTO> result = service.findAllPaged(categoryId, name, pageable);
 		
 		Assertions.assertNotNull(result);
 		Mockito.verify(repository).findAll(pageable);

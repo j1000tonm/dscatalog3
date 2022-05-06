@@ -27,19 +27,21 @@ public class ProductServiceIT {
 	private Long existingId;
 	private Long nonExistingId;
 	private Long countTotalProducts;
+	private String name;
 	
 	@BeforeEach
 	void setUp() throws Exception {
 		existingId = 1L;
 		nonExistingId = 1000L;
 		countTotalProducts = 25L;
+		name = "Gamer";
 	}
 	
 	@Test
 	public void deleteShouldDeleteResourceWhenIdExists() {
 		
 		service.delete(existingId);
-		
+	
 		Assertions.assertEquals(countTotalProducts - 1, repository.count());
 	}
 	
@@ -56,7 +58,7 @@ public class ProductServiceIT {
 		
 		PageRequest pageRequest = PageRequest.of(0, 10);
 		
-		Page<ProductDTO> result = service.findAllPaged(pageRequest);
+		Page<ProductDTO> result = service.findAllPaged(existingId, name, pageRequest);
 		
 		Assertions.assertFalse(result.isEmpty());
 		Assertions.assertEquals(0, result.getNumber());
@@ -69,7 +71,7 @@ public class ProductServiceIT {
 		
 		PageRequest pageRequest = PageRequest.of(50, 10);
 		
-		Page<ProductDTO> result = service.findAllPaged(pageRequest);
+		Page<ProductDTO> result = service.findAllPaged(existingId, name, pageRequest);
 		
 		Assertions.assertTrue(result.isEmpty());
 	}	
@@ -79,7 +81,7 @@ public class ProductServiceIT {
 		
 		PageRequest pageRequest = PageRequest.of(0, 10, Sort.by("name"));
 		
-		Page<ProductDTO> result = service.findAllPaged(pageRequest);
+		Page<ProductDTO> result = service.findAllPaged(existingId, name, pageRequest);
 		
 		Assertions.assertFalse(result.isEmpty());
 		Assertions.assertEquals("Macbook Pro", result.getContent().get(0).getName());

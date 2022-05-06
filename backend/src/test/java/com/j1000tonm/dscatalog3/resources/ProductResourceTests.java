@@ -46,6 +46,7 @@ public class ProductResourceTests {
 	private Long existingId;
 	private Long nonExistingId;
 	private Long dependentId;
+	private String name;
 	private ProductDTO productDTO;
 	private PageImpl<ProductDTO> page;
 	
@@ -55,11 +56,12 @@ public class ProductResourceTests {
 		existingId = 1L;
 		nonExistingId = 2L;
 		dependentId = 3L;
+		name = "Gamer";
 		
 		productDTO = Factory.createProductDTO();
 		page = new PageImpl<>(List.of(productDTO)); 
 		
-		when(service.findAllPaged(any())).thenReturn(page);
+		when(service.findAllPaged(any(), name, null)).thenReturn(page);
 		
 		when(service.findById(existingId)).thenReturn(productDTO);
 		when(service.findById(nonExistingId)).thenThrow(ResourceNotFoundException.class);
