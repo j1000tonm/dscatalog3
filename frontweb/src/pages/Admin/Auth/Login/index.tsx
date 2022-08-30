@@ -16,7 +16,6 @@ type LocationState = {
   from: string;
 }
 
-
 const Login = () => {
 
   const location = useLocation<LocationState>();
