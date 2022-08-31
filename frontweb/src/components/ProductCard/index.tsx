@@ -8,6 +8,7 @@ type Props = {
 }
 
 const ProductCard = ( { product } : Props) => {
+
     return (
         <div className="base-card product-card">
             <div className="card-top-container">

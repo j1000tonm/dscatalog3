@@ -1,11 +1,11 @@
-import { AxiosRequestConfig } from 'axios';
-import Pagination from 'components/Pagination';
 import ProductCard from 'components/ProductCard';
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Product } from 'types/product';
+import { Link } from 'react-router-dom';
+import Pagination from 'components/Pagination';
+import { useState, useEffect } from 'react';
 import { SpringPage } from 'types/vendor/spring';
 import { requestBackend } from 'util/requests';
+import { AxiosRequestConfig } from 'axios';
 import CardLoader from './CardLoader';
 
 import './styles.css';
@@ -21,7 +21,7 @@ const Catalog = () => {
       params: {
         page: 0,
         size: 12,
-      },
+      }
     };
 
     setIsLoading(true);
@@ -39,6 +39,7 @@ const Catalog = () => {
       <div className="row catalog-title-container">
         <h1>Catálogo de produtos</h1>
       </div>
+
       <div className="row">
         {isLoading ? <CardLoader /> : (
           page?.content.map((product) => (
@@ -49,6 +50,7 @@ const Catalog = () => {
           </div>
         )))}
       </div>
+
       <div className="row">
         <Pagination />
       </div>
