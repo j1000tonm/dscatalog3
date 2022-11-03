@@ -3,6 +3,7 @@ import './styles.css';
 import ProductPrice from 'components/ProductPrice';
 import { Product } from 'types/product';
 import CategoryBadge from '../CategoryBadge';
+import { Link } from 'react-router-dom';
 
 type Props = {
   product: Product;
@@ -20,18 +21,20 @@ const ProductCrudCard = ({ product }: Props) => {
           <ProductPrice price={product.price} />
         </div>
         <div className="product-crud-categories-container">
-            {product.categories.map((category) => (
-                <CategoryBadge name={category.name} key={category.id} />
-            ))}
+          {product.categories.map((category) => (
+            <CategoryBadge name={category.name} key={category.id} />
+          ))}
         </div>
       </div>
       <div className="product-crud-card-buttons-container">
         <button className="btn btn-outline-danger product-crud-card-button product-crud-card-button-first">
-            EXCLUIR                    
+          EXCLUIR
         </button>
-        <button className="btn btn-outline-secondary product-crud-card-button">
-            EDITAR                    
-        </button>
+        <Link to={`/admin/products/${product.id}`}>
+          <button className="btn btn-outline-secondary product-crud-card-button">
+            EDITAR
+          </button>
+        </Link>
       </div>
     </div>
   );
