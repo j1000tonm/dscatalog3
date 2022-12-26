@@ -4,7 +4,7 @@ import { Router, useParams } from 'react-router-dom';
 import selectEvent from 'react-select-event';
 import history from 'util/history';
 import Form from '../Form';
-import { server } from './fixtures';
+import { ProductResponse, server } from './fixtures';
 import { ToastContainer } from 'react-toastify';
 
 beforeAll(() => server.listen());
@@ -80,7 +80,6 @@ describe('Product form create tests', () => {
     });
   });
 
-
   test('should clear validation messages when filling out the form correctly', async () => {
     render(
       <Router history={history}>
@@ -121,5 +120,51 @@ describe('Product form create tests', () => {
         expect(messages).toHaveLength(0);
       });
     });
+  });
+});
+
+describe('Product form update tests', () => {
+  beforeEach(() => {
+    (useParams as jest.Mock).mockReturnValue({
+      productId: '2',
+    });
+  });
+
+  test('should show toast and redirect when submit form correctly', async () => {
+    render(
+      <Router history={history}>
+        <ToastContainer />
+        <Form />
+      </Router>
+    );
+
+    await waitFor(() => {
+      const nameInput = screen.getByTestId('name');
+      const priceInput = screen.getByTestId('price');
+      const imgUrlInput = screen.getByTestId('imgUrl');
+      const descriptionInput = screen.getByTestId('description');
+
+      const formElement = screen.getByTestId("form");
+
+      expect(nameInput).toHaveValue(ProductResponse.name);
+      expect(priceInput).toHaveValue(String(ProductResponse.price));
+      expect(imgUrlInput).toHaveValue(ProductResponse.imgUrl);
+      expect(descriptionInput).toHaveValue(ProductResponse.description);
+
+      const ids = ProductResponse.categories.map(x => String(x.id));
+      expect(formElement).toHaveFormValues({categories: ids});
+    });
+
+    const submitButton = screen.getByRole('button', { name: /salvar/i });
+
+    userEvent.click(submitButton);
+
+    await waitFor(() => {
+      const toastElement = screen.getByText('Produto cadastrado com sucesso');
+      expect(toastElement).toBeInTheDocument();
+    });
+
+    expect(history.location.pathname).toEqual('/admin/products');
+
   });
 });
