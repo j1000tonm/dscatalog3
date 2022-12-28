@@ -67,7 +67,7 @@ const Form = () => {
 
     requestBackend(config)
     .then(() => {
-      toast.info('Produto cadastrado com sucesso');
+      toast.success('Produto cadastrado com sucesso');
       history.push('/admin/products');
     })
     .catch(() => {
